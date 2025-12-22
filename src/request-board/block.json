@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "je-request/board",
+  "version": "1.0.0",
+  "title": "Feature Request Board",
+  "category": "widgets",
+  "description": "Display and collect feature requests with voting",
+  "keywords": ["request", "feature", "vote", "feedback"],
+  "textdomain": "je-request-block",
+  "icon": "lightbulb",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Feature Requests"
+    },
+    "showTitle": {
+      "type": "boolean",
+      "default": true
+    },
+    "showForm": {
+      "type": "boolean",
+      "default": true
+    },
+    "showFilter": {
+      "type": "boolean",
+      "default": true
+    },
+    "showSort": {
+      "type": "boolean",
+      "default": true
+    },
+    "defaultSort": {
+      "type": "string",
+      "default": "votes"
+    },
+    "defaultStatus": {
+      "type": "string",
+      "default": "all"
+    },
+    "layout": {
+      "type": "string",
+      "default": "list"
+    },
+    "theme": {
+      "type": "string",
+      "default": "default"
+    },
+    "primaryColor": {
+      "type": "string",
+      "default": "#4f46e5"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}
