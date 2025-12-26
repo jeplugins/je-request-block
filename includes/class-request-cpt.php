@@ -147,7 +147,7 @@ class JE_Request_CPT {
                 );
                 $label = isset( $labels[ $status ] ) ? $labels[ $status ] : $status;
                 $color = isset( $colors[ $status ] ) ? $colors[ $status ] : '#6b7280';
-                echo '<span style="background:' . $color . '; color:white; padding:3px 8px; border-radius:3px; font-size:12px;">' . esc_html( $label ) . '</span>';
+                echo '<span style="background:' . esc_attr( $color ) . '; color:white; padding:3px 8px; border-radius:3px; font-size:12px;">' . esc_html( $label ) . '</span>';
                 break;
                 
             case 'email':
@@ -194,22 +194,22 @@ class JE_Request_CPT {
         wp_nonce_field( 'je_request_meta_box', 'je_request_meta_box_nonce' );
         ?>
         <p>
-            <label for="je_request_status"><strong><?php _e( 'Status:', 'je-request-block' ); ?></strong></label><br>
+            <label for="je_request_status"><strong><?php esc_html_e( 'Status:', 'je-request-block' ); ?></strong></label><br>
             <select name="je_request_status" id="je_request_status" style="width:100%; margin-top:5px;">
-                <option value="pending" <?php selected( $status, 'pending' ); ?>><?php _e( 'Pending', 'je-request-block' ); ?></option>
-                <option value="planned" <?php selected( $status, 'planned' ); ?>><?php _e( 'Planned', 'je-request-block' ); ?></option>
-                <option value="in_progress" <?php selected( $status, 'in_progress' ); ?>><?php _e( 'In Progress', 'je-request-block' ); ?></option>
-                <option value="completed" <?php selected( $status, 'completed' ); ?>><?php _e( 'Completed', 'je-request-block' ); ?></option>
-                <option value="rejected" <?php selected( $status, 'rejected' ); ?>><?php _e( 'Rejected', 'je-request-block' ); ?></option>
+                <option value="pending" <?php selected( $status, 'pending' ); ?>><?php esc_html_e( 'Pending', 'je-request-block' ); ?></option>
+                <option value="planned" <?php selected( $status, 'planned' ); ?>><?php esc_html_e( 'Planned', 'je-request-block' ); ?></option>
+                <option value="in_progress" <?php selected( $status, 'in_progress' ); ?>><?php esc_html_e( 'In Progress', 'je-request-block' ); ?></option>
+                <option value="completed" <?php selected( $status, 'completed' ); ?>><?php esc_html_e( 'Completed', 'je-request-block' ); ?></option>
+                <option value="rejected" <?php selected( $status, 'rejected' ); ?>><?php esc_html_e( 'Rejected', 'je-request-block' ); ?></option>
             </select>
         </p>
         <p>
-            <label><strong><?php _e( 'Votes:', 'je-request-block' ); ?></strong></label><br>
+            <label><strong><?php esc_html_e( 'Votes:', 'je-request-block' ); ?></strong></label><br>
             <span style="font-size:24px; color:#4f46e5;"><?php echo intval( $votes ); ?></span>
         </p>
         <?php if ( $email ) : ?>
         <p>
-            <label><strong><?php _e( 'Email:', 'je-request-block' ); ?></strong></label><br>
+            <label><strong><?php esc_html_e( 'Email:', 'je-request-block' ); ?></strong></label><br>
             <a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a>
         </p>
         <?php endif; ?>
@@ -224,16 +224,20 @@ class JE_Request_CPT {
             return;
         }
         
-        if ( ! wp_verify_nonce( $_POST['je_request_meta_box_nonce'], 'je_request_meta_box' ) ) {
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['je_request_meta_box_nonce'] ) ), 'je_request_meta_box' ) ) {
             return;
         }
         
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return;
         }
+
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
         
         if ( isset( $_POST['je_request_status'] ) ) {
-            update_post_meta( $post_id, '_je_request_status', sanitize_text_field( $_POST['je_request_status'] ) );
+            update_post_meta( $post_id, '_je_request_status', sanitize_text_field( wp_unslash( $_POST['je_request_status'] ) ) );
         }
     }
 }

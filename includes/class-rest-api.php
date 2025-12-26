@@ -174,6 +174,10 @@ class JE_Request_REST_API {
             return new WP_Error( 'not_found', __( 'Request not found.', 'je-request-block' ), array( 'status' => 404 ) );
         }
 
+        if ( $post->post_status !== 'publish' ) {
+            return new WP_Error( 'not_published', __( 'Cannot vote on unpublished requests.', 'je-request-block' ), array( 'status' => 403 ) );
+        }
+
         $ip     = self::get_client_ip();
         $voters = get_post_meta( $post_id, '_je_request_voters', true );
 
@@ -288,15 +292,15 @@ class JE_Request_REST_API {
         $ip = '';
 
         if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
+            $ip = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
         } elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
             // Get first IP if multiple
-            $ips = explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] );
+            $ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
             $ip = trim( $ips[0] );
         } elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-            $ip = $_SERVER['REMOTE_ADDR'];
+            $ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
         }
 
-        return sanitize_text_field( $ip );
+        return $ip;
     }
 }
