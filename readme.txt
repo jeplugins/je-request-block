@@ -46,20 +46,16 @@ Upgrade to [JE Request Block Pro](https://jeplugins.github.io/request-block/) fo
 
 == Installation ==
 
-1. Upload the plugin files to `/wp-content/plugins/je-request-block`, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Create or edit a page/post and search for "Request" block.
-4. Add the Feature Request Board block to your page.
+1. Install the plugin via WordPress plugins screen or upload to `/wp-content/plugins/je-request-block`.
+2. Activate "JE Request Block" from the Plugins menu.
+3. Edit any page or post, click the + button and search for "Feature Request".
+4. Insert the block and start collecting feedback from your users!
 
-== Development ==
+== Screenshots == 
 
-Source code and build instructions are available on GitHub:
-https://github.com/jeplugins/je-request-block
-
-To build from source:
-1. Clone the repository
-2. Run `yarn install`
-3. Run `yarn build`
+1. Feature request board - Cards layout view 
+2. Feature request board - List layout view 
+3. Admin panel - Manage all requests
 
 == Changelog ==
 
